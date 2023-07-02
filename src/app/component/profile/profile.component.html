@@ -1,7 +1,7 @@
 <ng-container *ngIf="profileState$ | async as state">
   <ng-container>
     <app-navbar></app-navbar>
-    <div>{{ state | json }}</div>
+    <!-- <div>{{ state | json }} </div> -->
     <section>
       <div class="container">
         <nav aria-label="breadcrumb" style="margin-top: 8px">
@@ -24,8 +24,9 @@
             <div class="p-4">
               <div class="img-circle text-center mb-3">
                 <span style="position: relative">
+                  <!-- <img [src]="state?.appData?.data?.user?.imageUrl" alt="John" class="shadow" /> -->
                   <img
-                    [src]="state?.appData?.data?.user?.imageUrl"
+                    src="https://img.freepik.com/free-icon/user_318-159711.jpg"
                     alt="John"
                     class="shadow"
                   />
@@ -139,9 +140,11 @@
                       <input
                         type="text"
                         name="firstName"
-                        [ngModel]="state.appData.data.user.firstName"
+                        [ngModel]="state?.appData?.data?.user?.firstName"
                         [disabled]="
-                          state.appData.data.user.roleName === 'ROLE_USER' ||
+                          state?.appData?.data?.user?.roleName ===
+                            'ROLE_USER' ||
+                          (isLoading$ | async) ||
                           (isLoading$ | async)
                         "
                         class="form-control"
@@ -154,10 +157,10 @@
                       <input
                         type="text"
                         name="lastName"
-                        [ngModel]="state.appData.data.user.lastName"
+                        [ngModel]="state?.appData?.data?.user?.lastName"
                         [disabled]="
-                          state.appData.data.user.roleName === 'ROLE_USER' ||
-                          (isLoading$ | async)
+                          state?.appData?.data?.user?.roleName ===
+                            'ROLE_USER' || (isLoading$ | async)
                         "
                         class="form-control"
                       />
@@ -171,8 +174,8 @@
                         name="email"
                         [ngModel]="state?.appData?.data?.user?.email"
                         [disabled]="
-                          state.appData.data.user.roleName === 'ROLE_USER' ||
-                          (isLoading$ | async)
+                          state?.appData?.data?.user?.roleName ===
+                            'ROLE_USER' || (isLoading$ | async)
                         "
                         class="form-control"
                       />
@@ -186,8 +189,8 @@
                         name="phone"
                         [ngModel]="state?.appData?.data?.user?.phone"
                         [disabled]="
-                          state.appData.data.user.roleName === 'ROLE_USER' ||
-                          (isLoading$ | async)
+                          state?.appData?.data?.user?.roleName ===
+                            'ROLE_USER' || (isLoading$ | async)
                         "
                         class="form-control"
                       />
@@ -201,8 +204,8 @@
                         name="address"
                         [ngModel]="state?.appData?.data?.user?.address"
                         [disabled]="
-                          state.appData.data.user.roleName === 'ROLE_USER' ||
-                          (isLoading$ | async)
+                          state?.appData?.data?.user?.roleName ===
+                            'ROLE_USER' || (isLoading$ | async)
                         "
                         class="form-control"
                       />
@@ -216,8 +219,8 @@
                         name="title"
                         [ngModel]="state?.appData?.data?.user?.title"
                         [disabled]="
-                          state.appData.data.user.roleName === 'ROLE_USER' ||
-                          (isLoading$ | async)
+                          state?.appData?.data?.user?.roleName ===
+                            'ROLE_USER' || (isLoading$ | async)
                         "
                         class="form-control"
                       />
@@ -228,12 +231,12 @@
                       <label>Bio</label>
                       <textarea
                         name="bio"
-                        class="form-control"
-                        [textContent]="state?.appData?.data?.user?.bio"
+                        [ngModel]="state?.appData?.data?.user?.bio"
                         [disabled]="
-                          state.appData.data.user.roleName === 'ROLE_USER' ||
-                          (isLoading$ | async)
+                          state?.appData?.data?.user?.roleName ===
+                            'ROLE_USER' || (isLoading$ | async)
                         "
+                        class="form-control"
                         rows="4"
                       ></textarea>
                     </div>
@@ -242,7 +245,7 @@
                 <div>
                   <button
                     [disabled]="
-                      state.appData.data.user.roleName === 'ROLE_USER' ||
+                      state?.appData?.data?.user?.roleName === 'ROLE_USER' ||
                       (isLoading$ | async)
                     "
                     type="submit"
@@ -269,8 +272,10 @@
               style="min-height: 510px"
             >
               <h3 class="mb-4">Password Settings</h3>
-              <form>
-                <input type="hidden" name="userId" />
+              <form
+                #passwordForm="ngForm"
+                (ngSubmit)="updatePassword(passwordForm)"
+              >
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
@@ -278,6 +283,8 @@
                       <input
                         type="password"
                         name="currentPassword"
+                        ngModel
+                        [disabled]="isLoading$ | async"
                         class="form-control"
                         required
                       />
@@ -291,6 +298,8 @@
                       <input
                         type="password"
                         name="newPassword"
+                        ngModel
+                        [disabled]="isLoading$ | async"
                         class="form-control"
                         minlength="5"
                         required
@@ -302,7 +311,9 @@
                       <label>Confirm new password</label>
                       <input
                         type="password"
-                        name="confirmPassword"
+                        name="confirmNewPassword"
+                        ngModel
+                        [disabled]="isLoading$ | async"
                         class="form-control"
                         minlength="5"
                         required
@@ -311,15 +322,20 @@
                   </div>
                 </div>
                 <div>
-                  <button type="submit" class="btn btn-primary">
+                  <button
+                    [disabled]="passwordForm.invalid || (isLoading$ | async)"
+                    type="submit"
+                    class="btn btn-primary"
+                  >
                     <span
+                      *ngIf="isLoading$ | async"
                       class="spinner-border spinner-border-sm"
                       role="status"
                       aria-hidden="true"
                       style="margin-right: 5px"
                     ></span>
-                    <span>Loading...</span>
-                    <span>Update</span>
+                    <span *ngIf="isLoading$ | async">Loading...</span>
+                    <span *ngIf="!(isLoading$ | async)">Update</span>
                   </button>
                 </div>
               </form>
@@ -332,17 +348,43 @@
               style="min-height: 510px"
             >
               <h3 class="mb-4">Authorization Settings</h3>
-              <form>
+              <form #roleForm="ngForm">
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
                       <label style="margin-bottom: 5px">Role Name</label>
                       <select
                         name="roleName"
+                        [ngModel]="state?.appData?.data?.user?.roleName"
+                        [disabled]="
+                          !(
+                            state?.appData?.data?.user?.roleName ===
+                              'ROLE_SYSADMIN' ||
+                            state?.appData?.data?.user?.roleName ===
+                              'ROLE_ADMIN'
+                          ) || (isLoading$ | async)
+                        "
                         class="form-control select-cl"
                         required
                       >
-                        <option class="select-cl">ROLE_ADMIN</option>
+                        <option
+                          *ngFor="let role of state?.appData?.data?.roles"
+                          [selected]="
+                            state?.appData?.data?.user?.roleName === role.name
+                          "
+                          [disabled]="
+                            !(
+                              state?.appData?.data?.user?.roleName ===
+                                'ROLE_SYSADMIN' ||
+                              state?.appData?.data?.user?.roleName ===
+                                'ROLE_ADMIN'
+                            ) || (isLoading$ | async)
+                          "
+                          [ngValue]="role.name"
+                          class="select-cl"
+                        >
+                          {{ role.name }}
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -351,6 +393,7 @@
                       <label style="margin-bottom: 5px">Role Permissions</label>
                       <input
                         type="text"
+                        [disabled]="true"
                         class="form-control"
                         style="margin-bottom: 5px"
                       />
@@ -358,15 +401,26 @@
                   </div>
                 </div>
                 <div>
-                  <button type="submit" class="btn btn-primary">
+                  <button
+                    [disabled]="
+                      !(
+                        state?.appData?.data?.user?.roleName ===
+                          'ROLE_SYSADMIN' ||
+                        state?.appData?.data?.user?.roleName === 'ROLE_ADMIN'
+                      ) || (isLoading$ | async)
+                    "
+                    type="submit"
+                    class="btn btn-primary"
+                  >
                     <span
+                      *ngIf="isLoading$ | async"
                       class="spinner-border spinner-border-sm"
                       role="status"
                       aria-hidden="true"
                       style="margin-right: 5px"
                     ></span>
-                    <span>Loading...</span>
-                    <span>Update</span>
+                    <span *ngIf="isLoading$ | async">Loading...</span>
+                    <span *ngIf="!(isLoading$ | async)">Update</span>
                   </button>
                 </div>
               </form>
@@ -378,14 +432,24 @@
               aria-labelledby="application"
               style="min-height: 510px"
             >
-              <h3 class="mb-4">Application Settings</h3>
-              <form>
+              <h3 class="mb-4">Account Settings</h3>
+              <form #settingsForm="ngForm">
                 <input type="hidden" name="userId" />
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
                       <div class="form-check">
                         <input
+                          [disabled]="
+                            !(
+                              state?.appData?.data?.user?.roleName ===
+                                'ROLE_SYSADMIN' ||
+                              state?.appData?.data?.user?.roleName ===
+                                'ROLE_ADMIN'
+                            ) || (isLoading$ | async)
+                          "
+                          [checked]="state?.appData?.data?.user?.enabled"
+                          [ngModel]="state?.appData?.data?.user?.enabled"
                           type="checkbox"
                           name="enabled"
                           class="form-check-input"
@@ -396,6 +460,14 @@
                       </div>
                       <div class="form-check">
                         <input
+                          [disabled]="
+                            !(
+                              state?.appData?.data?.user?.roleName ===
+                                'ROLE_SYSADMIN' ||
+                              state?.appData?.data?.user?.roleName ===
+                                'ROLE_ADMIN'
+                            ) || (isLoading$ | async)
+                          "
                           type="checkbox"
                           name="notLocked"
                           class="form-check-input"
@@ -408,15 +480,26 @@
                   </div>
                 </div>
                 <div>
-                  <button type="submit" class="btn btn-primary">
+                  <button
+                    [disabled]="
+                      !(
+                        state?.appData?.data?.user?.roleName ===
+                          'ROLE_SYSADMIN' ||
+                        state?.appData?.data?.user?.roleName === 'ROLE_ADMIN'
+                      ) || (isLoading$ | async)
+                    "
+                    type="submit"
+                    class="btn btn-primary"
+                  >
                     <span
+                      *ngIf="isLoading$ | async"
                       class="spinner-border spinner-border-sm"
                       role="status"
                       aria-hidden="true"
                       style="margin-right: 5px"
                     ></span>
-                    <span>Loading...</span>
-                    <span>Update</span>
+                    <span *ngIf="isLoading$ | async">Loading...</span>
+                    <span *ngIf="!(isLoading$ | async)">Update</span>
                   </button>
                 </div>
               </form>
