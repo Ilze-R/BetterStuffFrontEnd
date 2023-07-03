@@ -348,7 +348,7 @@
               style="min-height: 510px"
             >
               <h3 class="mb-4">Authorization Settings</h3>
-              <form #roleForm="ngForm">
+              <form #roleForm="ngForm" (ngSubmit)="updateRole(roleForm)">
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
@@ -393,6 +393,12 @@
                       <label style="margin-bottom: 5px">Role Permissions</label>
                       <input
                         type="text"
+                        *ngFor="
+                          let permission of state?.appData?.data?.user?.permission.split(
+                            ','
+                          )
+                        "
+                        [value]="permission"
                         [disabled]="true"
                         class="form-control"
                         style="margin-bottom: 5px"
@@ -433,7 +439,10 @@
               style="min-height: 510px"
             >
               <h3 class="mb-4">Account Settings</h3>
-              <form #settingsForm="ngForm">
+              <form
+                #settingsForm="ngForm"
+                (ngSubmit)="updateAccountSettings(settingsForm)"
+              >
                 <input type="hidden" name="userId" />
                 <div class="row">
                   <div class="col-md-6">
@@ -468,6 +477,8 @@
                                 'ROLE_ADMIN'
                             ) || (isLoading$ | async)
                           "
+                          [checked]="state?.appData?.data?.user?.notLocked"
+                          [ngModel]="state?.appData?.data?.user?.notLocked"
                           type="checkbox"
                           name="notLocked"
                           class="form-check-input"

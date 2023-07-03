@@ -75,6 +75,30 @@ export class UserService {
         .pipe(tap(console.log), catchError(this.handleError))
     );
 
+  updateRoles$ = (roleName: string) =>
+    <Observable<CustomHttpResponse<Profile>>>(
+      this.http
+        .patch<CustomHttpResponse<Profile>>(
+          `${this.server}/user/update/role/${roleName}`,
+          {}
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  updateAccountSettings$ = (settings: {
+    enabled: boolean;
+    notLocked: boolean;
+  }) =>
+    <Observable<CustomHttpResponse<Profile>>>(
+      this.http
+        .patch<CustomHttpResponse<Profile>>(
+          `${this.server}/user/update/settings`,
+          settings,
+          {}
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
   private handleError(error: HttpErrorResponse): Observable<never> {
     console.log(error);
     let errorMessage: string;
