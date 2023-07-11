@@ -5,6 +5,7 @@ import { CustomHttpResponse, Page, Profile } from '../interface/appstates';
 import { User } from '../interface/user';
 import { Key } from '../enum/key.enum';
 import { Stats } from '../interface/stats';
+import { Customer } from '../interface/customer';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,16 @@ export class CustomerService {
       this.http
         .get<CustomHttpResponse<Page & User & Stats>>(
           `${this.server}/customer/list?page=${page}`
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  newCustomer$ = (customer: Customer) =>
+    <Observable<CustomHttpResponse<Page & User>>>(
+      this.http
+        .post<CustomHttpResponse<Page & User>>(
+          `${this.server}/customer/create`,
+          customer
         )
         .pipe(tap(console.log), catchError(this.handleError))
     );
