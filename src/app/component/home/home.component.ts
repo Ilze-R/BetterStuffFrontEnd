@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EventType } from '@angular/router';
+import { EventType, Router } from '@angular/router';
 import {
   Observable,
   BehaviorSubject,
@@ -35,6 +35,7 @@ export class HomeComponent implements OnInit {
   readonly DataState = DataState;
 
   constructor(
+    private router: Router,
     private userService: UserService,
     private customerService: CustomerService
   ) {}
@@ -83,5 +84,7 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  selectCustomer(customer: Customer): void {}
+  selectCustomer(customer: Customer): void {
+    this.router.navigate([`/customers/${customer.id}`]);
+  }
 }
