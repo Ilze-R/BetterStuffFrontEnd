@@ -12,6 +12,7 @@ import { DataState } from 'src/app/enum/datastate.enum';
 import { CustomHttpResponse, Page, Profile } from 'src/app/interface/appstates';
 import { Customer } from 'src/app/interface/customer';
 import { State } from 'src/app/interface/state';
+import { Stats } from 'src/app/interface/stats';
 import { User } from 'src/app/interface/user';
 import { CustomerService } from 'src/app/service/customer.service';
 import { UserService } from 'src/app/service/user.service';
@@ -22,10 +23,12 @@ import { UserService } from 'src/app/service/user.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  homeState$: Observable<State<CustomHttpResponse<Page & User>>>;
-  private dataSubject = new BehaviorSubject<CustomHttpResponse<Page & User>>(
-    null
-  );
+  homeState$: Observable<
+    State<CustomHttpResponse<Page<Customer> & User & Stats>>
+  >;
+  private dataSubject = new BehaviorSubject<
+    CustomHttpResponse<Page<Customer> & User & Stats>
+  >(null);
   private isLoadingSubject = new BehaviorSubject<boolean>(false);
   isLoading$ = this.isLoadingSubject.asObservable();
   private currentPageSubject = new BehaviorSubject<number>(0);

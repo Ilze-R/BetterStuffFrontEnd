@@ -30,11 +30,16 @@ export interface Profile {
   access_token?: string;
   refresh_token?: string;
 }
-export interface Page {
-  content: Customer[];
+export interface Page<T> {
+  content: T[];
   totalPages: number;
   totalElements: number;
   numberOfElements: number;
   size: number;
   number: number;
+}
+
+export interface CustomerState {
+  user: User;
+  customer: Customer;
 }
