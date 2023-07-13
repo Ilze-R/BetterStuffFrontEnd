@@ -103,9 +103,8 @@
                 </li>
                 <li
                   *ngFor="
-                    let pageNumber of [].constructor(
-                      state?.appData?.data?.page.totalPages
-                    );
+                    let pageNumber of state?.appData?.data?.page.totalPages
+                      | ExtractArrayValue : 'number';
                     let i = index
                   "
                   class="page-item pointer"

@@ -51,7 +51,7 @@ const routes: Routes = [
     canActivate: [AuthenticationGuard],
   },
   {
-    path: 'customer/:id/:invoiceNumber',
+    path: 'invoices/:id/:invoiceNumber',
     component: InvoiceComponent,
     canActivate: [AuthenticationGuard],
   },

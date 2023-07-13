@@ -98,7 +98,11 @@
                   >
                     Total Billed
                     <span class="badge bg-success" style="font-size: 20px">
-                      $ {{ state?.appData?.data?.customer.invoices.length }}
+                      $
+                      {{
+                        state?.appData?.data?.customer.invoices
+                          | ExtractArrayValue : "invoices"
+                      }}
                     </span>
                   </li>
                 </ul>
@@ -302,16 +306,16 @@
                         <span
                           class="badge"
                           [ngClass]="[
-                            invoice.status === 'ACTIVE' ? ' bg-success' : '',
+                            invoice.status === 'PAID' ? ' bg-success' : '',
                             invoice.status === 'PENDING' ? ' bg-primary' : '',
-                            invoice.status === 'BANNED' ? ' bg-danger' : '',
-                            invoice.status === 'INACTIVE' ? ' bg-info' : ''
+                            invoice.status === 'OVERDUE' ? ' bg-warning' : '',
+                            invoice.status === 'CANCELED' ? ' bg-danger' : ''
                           ]"
                         >
                           {{ invoice.status }}
                         </span>
                       </td>
-                      <td>{{ invoice.date }}</td>
+                      <td>{{ invoice.date | date : "mediumDate" }}</td>
                       <td>${{ invoice.total }}</td>
                       <td>
                         <button

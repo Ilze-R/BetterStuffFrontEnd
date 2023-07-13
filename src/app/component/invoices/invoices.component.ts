@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import {
   Observable,
   BehaviorSubject,
@@ -14,7 +13,6 @@ import { Invoice } from 'src/app/interface/invoice';
 import { State } from 'src/app/interface/state';
 import { User } from 'src/app/interface/user';
 import { CustomerService } from 'src/app/service/customer.service';
-import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-invoices',
@@ -35,8 +33,6 @@ export class InvoicesComponent implements OnInit {
   readonly DataState = DataState;
 
   constructor(
-    private router: Router,
-    private userService: UserService,
     private customerService: CustomerService
   ) {}
 
