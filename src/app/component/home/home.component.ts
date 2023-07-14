@@ -1,3 +1,4 @@
+import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { EventType, Router } from '@angular/router';
 import {
@@ -9,13 +10,14 @@ import {
   of,
 } from 'rxjs';
 import { DataState } from 'src/app/enum/datastate.enum';
-import { CustomHttpResponse, Page, Profile } from 'src/app/interface/appstates';
+import { CustomHttpResponse, Page } from 'src/app/interface/appstates';
 import { Customer } from 'src/app/interface/customer';
 import { State } from 'src/app/interface/state';
 import { Stats } from 'src/app/interface/stats';
 import { User } from 'src/app/interface/user';
 import { CustomerService } from 'src/app/service/customer.service';
 import { UserService } from 'src/app/service/user.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-home',
@@ -35,6 +37,12 @@ export class HomeComponent implements OnInit {
   currentPage$ = this.currentPageSubject.asObservable();
   private showLogsSubject = new BehaviorSubject<boolean>(false);
   showLogs$ = this.showLogsSubject.asObservable();
+  private fileStatusSubject = new BehaviorSubject<{
+    status: string;
+    type: string;
+    percent: number;
+  }>(undefined);
+  fileStatus$ = this.showLogsSubject.asObservable();
   readonly DataState = DataState;
 
   constructor(
@@ -89,5 +97,54 @@ export class HomeComponent implements OnInit {
 
   selectCustomer(customer: Customer): void {
     this.router.navigate([`/customers/${customer.id}`]);
+  }
+
+  report(): void {
+    this.homeState$ = this.customerService.downloadReport$().pipe(
+      map((response) => {
+        console.log(response);
+        this.reportProgress(response);
+        return { dataState: DataState.LOADED, appData: this.dataSubject.value };
+      }),
+      startWith({
+        dataState: DataState.LOADED,
+        appData: this.dataSubject.value,
+      }),
+      catchError((error: string) => {
+        return of({
+          dataState: DataState.LOADED,
+          error,
+          appData: this.dataSubject.value,
+        });
+      })
+    );
+  }
+
+  private reportProgress(httpEvent: HttpEvent<string[] | Blob>): void {
+    switch (httpEvent.type) {
+      case HttpEventType.DownloadProgress || HttpEventType.UploadProgress:
+        // Report the progress
+        this.fileStatusSubject.next({
+          status: 'progress',
+          type: 'Downloading...',
+          percent: Math.round((100 * httpEvent.loaded) / httpEvent.total),
+        });
+        break;
+      case HttpEventType.ResponseHeader:
+        console.log('Got response Headers', httpEvent);
+        break;
+      case HttpEventType.Response:
+        // need to save the file here
+        saveAs(
+          new File([<Blob>httpEvent.body], httpEvent.headers.get('File-Name'), {
+            type: `${httpEvent.headers.get('Content-Type')};charset=utf-8`,
+          })
+        );
+        this.fileStatusSubject.next(undefined);
+        break;
+      default:
+        console.log(httpEvent);
+        break;
+    }
   }
 }
