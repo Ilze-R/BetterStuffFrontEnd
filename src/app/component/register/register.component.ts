@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Observable, catchError, map, of, startWith } from 'rxjs';
 import { DataState } from 'src/app/enum/datastate.enum';
-import { RegisterState } from 'src/app/interface/appstates';
+import { RegisterAndResetState } from 'src/app/interface/appstates';
 import { UserService } from 'src/app/service/user.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { UserService } from 'src/app/service/user.service';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
-  registerState$: Observable<RegisterState> = of({
+  registerState$: Observable<RegisterAndResetState> = of({
     dataState: DataState.LOADED,
   });
   readonly DataState = DataState;
