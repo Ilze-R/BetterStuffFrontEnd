@@ -1,6 +1,6 @@
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { EventType, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import {
   Observable,
   BehaviorSubject,
