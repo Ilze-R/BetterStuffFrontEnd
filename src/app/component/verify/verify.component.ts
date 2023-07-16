@@ -76,13 +76,13 @@ export class VerifyComponent implements OnInit {
     );
   }
 
-  renewPassword(resetPasswordform: NgForm): void {
+  renewPassword(resetPasswordForm: NgForm): void {
     this.isLoadingSubject.next(true);
     this.verifyState$ = this.userService
       .renewPassword$({
         userId: this.userSubject.value.id,
-        password: resetPasswordform.value.password,
-        confirmedPassword: resetPasswordform.value.confirmedPassword,
+        password: resetPasswordForm.value.password,
+        confirmedPassword: resetPasswordForm.value.confirmedPassword,
       })
       .pipe(
         map((response) => {
