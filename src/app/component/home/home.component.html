@@ -23,7 +23,7 @@
           <div class="col">
             <h4 (click)="report()" class="fw-bold text-end">
               <i
-                style="cursor: pointer; color: green; font-size: 30px"
+                style="cursor: pointer; color: #1d6f42; font-size: 30px"
                 class="bi bi-file-earmark-excel"
               ></i>
             </h4>
@@ -64,10 +64,10 @@
                     <span
                       class="badge"
                       [ngClass]="[
-                        customer.status === 'ACTIVE' ? 'bg-success' : '',
-                        customer.status === 'PENDING' ? 'bg-primary' : '',
-                        customer.status === 'BANNED' ? 'bg-danger' : '',
-                        customer.status === 'INACTIVE' ? 'bg-info' : ''
+                        customer.status === 'ACTIVE' ? 'success' : '',
+                        customer.status === 'PENDING' ? 'primary' : '',
+                        customer.status === 'BANNED' ? 'danger' : '',
+                        customer.status === 'INACTIVE' ? 'info' : ''
                       ]"
                     >
                       {{ customer.status }}
@@ -112,7 +112,9 @@
                 >
                   <a
                     (click)="goToPage(i)"
-                    [ngClass]="i == (currentPage$ | async) ? ' active' : ''"
+                    [ngClass]="
+                      i == (currentPage$ | async) ? ' active-page' : ''
+                    "
                     class="page-link"
                   >
                     {{ i + 1 }}

@@ -44,8 +44,8 @@
                 />
               </div>
               <div class="col-auto">
-                <button type="submit" class="btn btn-primary mb-3">
-                  Search Customers
+                <button type="submit" class="btn mb-3 btn-search">
+                  Search
                 </button>
               </div>
             </form>
@@ -86,10 +86,10 @@
                     <span
                       class="badge"
                       [ngClass]="[
-                        customer.status === 'ACTIVE' ? ' bg-success' : '',
-                        customer.status === 'PENDING' ? ' bg-primary' : '',
-                        customer.status === 'BANNED' ? ' bg-danger' : '',
-                        customer.status === 'INACTIVE' ? ' bg-info' : ''
+                        customer.status === 'ACTIVE' ? ' success' : '',
+                        customer.status === 'PENDING' ? ' primary' : '',
+                        customer.status === 'BANNED' ? ' danger' : '',
+                        customer.status === 'INACTIVE' ? ' info' : ''
                       ]"
                     >
                       {{ customer.status }}
@@ -137,7 +137,7 @@
                 >
                   <a
                     (click)="goToPage(i, searchForm.value.name)"
-                    [ngClass]="i == (currentPage$ | async) ? ' active' : ''"
+                    [ngClass]="i == (currentPage$ | async) ? ' active-page' : ''"
                     class="page-link"
                   >
                     {{ i + 1 }}

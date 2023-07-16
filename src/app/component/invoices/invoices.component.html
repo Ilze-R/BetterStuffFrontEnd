@@ -26,7 +26,7 @@
           </div>
           <div class="col-xm-12">
             <table class="table table-hover">
-              <thead>
+              <thead class="top-menu">
                 <tr>
                   <th scope="col">Invoice Number</th>
                   <th scope="col">Service</th>
@@ -47,10 +47,10 @@
                     <span
                       class="badge"
                       [ngClass]="[
-                        invoice.status === 'PAID' ? ' bg-success' : '',
-                        invoice.status === 'PENDING' ? ' bg-primary' : '',
-                        invoice.status === 'CANCELED' ? ' bg-danger' : '',
-                        invoice.status === 'OVERDUE' ? ' bg-warning' : ''
+                        invoice.status === 'PAID' ? ' success' : '',
+                        invoice.status === 'PENDING' ? ' primary' : '',
+                        invoice.status === 'CANCELED' ? ' warning' : '',
+                        invoice.status === 'OVERDUE' ? ' danger' : ''
                       ]"
                     >
                       {{ invoice.status }}
@@ -101,7 +101,9 @@
                 >
                   <a
                     (click)="goToPage(i)"
-                    [ngClass]="i == (currentPage$ | async) ? ' active' : ''"
+                    [ngClass]="
+                      i == (currentPage$ | async) ? ' active-page' : ''
+                    "
                     class="page-link"
                   >
                     {{ i + 1 }}

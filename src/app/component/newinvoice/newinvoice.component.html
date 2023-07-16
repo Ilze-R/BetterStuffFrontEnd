@@ -140,7 +140,7 @@
                         (isLaoding$ | async)
                       "
                       type="submit"
-                      class="btn btn-primary mt-5"
+                      class="btn btn-primary mt-5 btn-save"
                     >
                       <span
                         *ngIf="isLaoding$ | async"
@@ -150,7 +150,7 @@
                         style="margin-right: 5px"
                       ></span>
                       <span *ngIf="isLaoding$ | async">Saving...</span>
-                      <span *ngIf="!(isLaoding$ | async)">Save Invoice</span>
+                      <span *ngIf="!(isLaoding$ | async)">Save</span>
                     </button>
                   </div>
                 </form>

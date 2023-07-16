@@ -1,7 +1,6 @@
 <ng-container *ngIf="profileState$ | async as state">
   <ng-container>
     <app-navbar [user]="state?.appData?.data?.user"></app-navbar>
-    <!-- <div>{{ state | json }} </div> -->
     <section>
       <div class="container">
         <nav aria-label="breadcrumb" style="margin-top: 8px">
@@ -39,12 +38,10 @@
                 {{ state?.appData?.data?.user?.firstName }}
                 {{ state?.appData?.data?.user?.lastName }}
               </h4>
-              <span class=""
-                >Since
-                {{
-                  state?.appData?.data?.user?.createdAt | date : "MMMM d, y"
-                }}</span
-              >
+              <h4 class="text-center created-at-info">
+                Since
+                {{ state?.appData?.data?.user?.createdAt | date : "MMMM d, y" }}
+              </h4>
             </div>
             <div
               class="nav flex-column nav-pills"
@@ -251,7 +248,7 @@
                       (isLoading$ | async)
                     "
                     type="submit"
-                    class="btn btn-primary"
+                    class="btn btn-primary btn-update"
                   >
                     <span
                       *ngIf="isLoading$ | async"
@@ -327,7 +324,7 @@
                   <button
                     [disabled]="passwordForm.invalid || (isLoading$ | async)"
                     type="submit"
-                    class="btn btn-primary"
+                    class="btn btn-primary btn-update"
                   >
                     <span
                       *ngIf="isLoading$ | async"
@@ -418,7 +415,7 @@
                       ) || (isLoading$ | async)
                     "
                     type="submit"
-                    class="btn btn-primary"
+                    class="btn btn-primary btn-update"
                   >
                     <span
                       *ngIf="isLoading$ | async"
@@ -502,7 +499,7 @@
                       ) || (isLoading$ | async)
                     "
                     type="submit"
-                    class="btn btn-primary"
+                    class="btn btn-primary btn-update"
                   >
                     <span
                       *ngIf="isLoading$ | async"
@@ -553,7 +550,7 @@
                           state?.appData?.data?.user?.roleName ===
                             'ROLE_USER' || (isLoading$ | async)
                         "
-                        class="btn btn-primary btn-sm"
+                        class="btn btn-primary btn-sm btn-update"
                       >
                         {{
                           state?.appData?.data?.user?.usingMfa
@@ -576,7 +573,7 @@
                     <div class="col">
                       <strong class="mb-2">Activity Logs</strong>
                       <p class="text-muted mb-0">
-                        Show the latst activites on your account
+                        Show the latest activites on your account
                       </p>
                     </div>
                     <div class="col-auto">
@@ -629,30 +626,28 @@
                           class="badge pill"
                           [ngClass]="[
                             event.type === EventType.LOGIN_ATTEMPT_SUCCESS
-                              ? 'bg-success'
+                              ? 'success'
                               : '',
                             event.type === EventType.LOGIN_ATTEMPT
-                              ? 'bg-warning'
+                              ? 'warning'
                               : '',
                             event.type === EventType.PROFILE_UPDATE
-                              ? 'bg-primary'
+                              ? 'primary'
                               : '',
                             event.type === EventType.LOGIN_ATTEMPT_FAILURE
-                              ? 'bg-danger'
+                              ? 'danger'
                               : '',
                             event.type === EventType.PROFILE_PICTURE_UPDATE
-                              ? 'bg-primary'
+                              ? 'primary'
                               : '',
-                            event.type === EventType.ROLE_UPDATE
-                              ? 'bg-info'
-                              : '',
+                            event.type === EventType.ROLE_UPDATE ? 'info' : '',
                             event.type === EventType.ACCOUNT_SETTINGS_UPDATE
-                              ? 'bg-warning'
+                              ? 'warning'
                               : '',
                             event.type === EventType.PASSWORD_UPDATE
-                              ? 'bg-warning'
+                              ? 'warning'
                               : '',
-                            event.type === EventType.MFA_UPDATE ? 'bg-info' : ''
+                            event.type === EventType.MFA_UPDATE ? 'info' : ''
                           ]"
                         >
                           {{ event.type }}
@@ -660,11 +655,7 @@
                       </td>
                       <td>{{ event.description }}</td>
                       <td>
-                        <button
-                          type="button"
-                          class="btn btn-sm"
-                          style="background-color: #fd5d0d; font-weight: 450"
-                        >
+                        <button type="button" class="btn btn-sm btn-report">
                           Report
                         </button>
                       </td>
