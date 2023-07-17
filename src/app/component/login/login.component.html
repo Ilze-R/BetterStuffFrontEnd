@@ -6,7 +6,8 @@
           <div class="card-body">
             <div class="text-center">
               <h2>
-                <i style="margin-right: 5px" class="bi bi-safe"></i>Invoice Management
+                <i style="margin-right: 5px" class="bi bi-safe"></i>Invoice
+                Management
               </h2>
               <!-- <p class="lead">Questions? Do not hesitate to contact us.</p> -->
               <h5 class="card-title mt-4 mb-5">Account Login</h5>
@@ -56,7 +57,7 @@
                     loginForm.pristine
                   "
                   type="submit"
-                  class="btn btn-primary"
+                  class="btn btn-primary btn-login"
                 >
                   <span
                     *ngIf="state.dataState === DataState.LOADING"
@@ -111,7 +112,8 @@
           <div class="card-body">
             <div class="text-center">
               <h2>
-                <i style="margin-right: 5px" class="bi bi-safe"></i>Invoice Management
+                <i style="margin-right: 5px" class="bi bi-safe"></i>Invoice
+                Management
               </h2>
               <h5 class="card-title mt-4 mb-4">
                 Verification Code Sent To ...{{ state.phone }}
@@ -180,24 +182,10 @@
             </form>
             <div class="row mb-4">
               <div class="col d-flex justify-content-center">
-                <a
-                  (click)="loginPage()"
-                  style="
-                    color: #0d6efd;
-                    text-decoration: underline;
-                    cursor: pointer;
-                  "
-                  >Account Login</a
-                >
+                <a class="links" (click)="loginPage()">Account Login</a>
               </div>
               <div class="col">
-                <a
-                  [routerLink]="['/register']"
-                  style="
-                    color: #0d6efd;
-                    text-decoration: underline;
-                    cursor: pointer;
-                  "
+                <a class="links" [routerLink]="['/register']"
                   >Create an account</a
                 >
               </div>
