@@ -17,7 +17,8 @@ import { Invoice } from '../interface/invoice';
   providedIn: 'root',
 })
 export class CustomerService {
-  private readonly server: string = 'http://localhost:8080';
+  private readonly server: string =
+    'https://invoice-app-95342-7c6c72d5efce.herokuapp.com';
 
   constructor(private http: HttpClient) {}
 
