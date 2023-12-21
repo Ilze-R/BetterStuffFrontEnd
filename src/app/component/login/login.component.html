@@ -28,7 +28,9 @@
             </div>
             <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
               <div class="form-outline mb-4">
-                <label class="form-label" for="email">Email Address</label>
+                <label class="form-label" for="email"
+                  >Email Address (test - irigerte@gmail.com)</label
+                >
                 <input
                   [disabled]="state.dataState === DataState.LOADING"
                   ngModel
@@ -39,7 +41,9 @@
                 />
               </div>
               <div class="form-outline mb-4">
-                <label for="password" class="form-label">Password</label>
+                <label for="password" class="form-label"
+                  >Password (test - testaccount)</label
+                >
                 <input
                   [disabled]="state.dataState === DataState.LOADING"
                   ngModel
