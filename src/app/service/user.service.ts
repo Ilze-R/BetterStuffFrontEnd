@@ -15,7 +15,7 @@ import { Key } from '../enum/key.enum';
 })
 export class UserService {
   private readonly server: string =
-    'https://invoice-app-frontend-95342-29caa4a707ee.herokuapp.com';
+    'https://invoice-mng-83ae98f8465f.herokuapp.com';
 
   // private readonly server: string = 'https://www.invoice-mng.com';
   private jwtHelper = new JwtHelperService();
